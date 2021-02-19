@@ -20,7 +20,8 @@
     "webpack": "^5.21.2"
   },
   "dependencies": {
-    "mods-toolkit-core": "^0.2.12",
+    "mods-toolkit-core": "^0.1.10-alpha.2",
+    "vscode-jsonrpc": "^6.0.0",
     "ws": "^7.4.3"
   }
 }

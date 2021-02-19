@@ -1,13 +1,24 @@
-import * as webSocket from 'ws';
+import * as rpc from 'vscode-jsonrpc/node';
+import WebSocket from 'ws';
 
-const server = new webSocket.Server({ port: 7919 });
+const server = new WebSocket.Server({ port: 7919 });
 
 server.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
+  const webSocketStream = WebSocket.createWebSocketStream(
+    ws, { decodeStrings: false}
+  );
+
+  const connection = rpc.createMessageConnection(
+    new rpc.StreamMessageReader(webSocketStream),
+    new rpc.StreamMessageWriter(webSocketStream)
+  );
+
+  const notification = new rpc.NotificationType<string>('testNotification');
+  connection.onNotification(notification, (param: string) => {
+    console.log(param);
   });
 
-  ws.send('something');
+  connection.listen();
 });
 
 console.log("server started");
