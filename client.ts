@@ -17,3 +17,11 @@ connection.listen();
 
 connection.sendNotification(notification, 'Hello World');
 connection.sendNotification(notification, 'Hello2');
+
+const request = new rpc.RequestType2<number, number, number, Error>('Add');
+
+connection.sendRequest(request, 1, 2).then((result) => {
+  console.log("ret = %d", result);
+});
+
+
